@@ -26,7 +26,9 @@ export default class AuthController {
       avatarKeyDelete: uploadImage.keyDelete,
     })
 
-    const logged = await ctx.auth.use('api').login(user)
+    const logged = await ctx.auth.use('api').login(user, {
+      expiresIn: '1d',
+    })
 
     return ctx.response.ok({
       profile: {
@@ -39,6 +41,7 @@ export default class AuthController {
       },
     })
   }
+
   public async SignIn(ctx: HttpContextContract) {
     const bodyValidate = await SignInValidator.SignIn.validate(ctx.request.body())
 
@@ -56,7 +59,9 @@ export default class AuthController {
       return ctx.response.badRequest('Invalid credentials')
     }
 
-    const logged = await ctx.auth.use('api').login(user)
+    const logged = await ctx.auth.use('api').login(user, {
+      expiresIn: '1d',
+    })
 
     return ctx.response.ok({
       profile: {
